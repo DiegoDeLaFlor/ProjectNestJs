@@ -6,7 +6,6 @@ export class CreateDivisionDto {
     @MaxLength (45)
     name: string;
 
-    @IsString()
     @IsInt()
     upperDivisionId?: number;
     

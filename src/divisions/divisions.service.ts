@@ -3,6 +3,7 @@ import { DivisionsRepository } from './divisions.repository';
 import { CreateDivisionDto } from './dtos/createDivision.dto';
 import { UpdateDivisionDto } from './dtos/updateDivision.dto';
 import { Division } from './division.entity';
+import { Pagination } from './interfaces/pagination.interface';
 
 @Injectable()
 export class DivisionsService {
@@ -23,8 +24,13 @@ export class DivisionsService {
         return await this.divisionsRepository.createDivision(division);
     }
 
-    async findDivisions(): Promise<Division[]> {
-        return await this.divisionsRepository.findDivisions();
+    async findDivisions(page: number, limit: number): Promise<Pagination<Division>> {
+        const [results, total] = await this.divisionsRepository.findAndCount({
+            relations: { upperDivision: true },
+            skip: (page - 1) * limit,
+            take: limit,
+        });
+        return { results, total, page, limit };
     }
 
     async findDivisionById(id: number): Promise<Division> {
