@@ -30,7 +30,12 @@ export class DivisionsService {
             skip: (page - 1) * limit,
             take: limit,
         });
-        return { results, total, page, limit };
+        return { 
+            results: results, 
+            total: total, 
+            page: page, 
+            limit: limit 
+        };
     }
 
     async findDivisionById(id: number): Promise<Division> {
